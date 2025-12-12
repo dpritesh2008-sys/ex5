@@ -91,8 +91,10 @@ urlpatterns = [
 ~~~
 
 ## SERVER SIDE PROCESSING:
+![WhatsApp Image 2025-12-12 at 13 23 00_0620080c](https://github.com/user-attachments/assets/88936a14-89c3-4f51-8d6d-730d5605ffdb)
 
 ## HOMEPAGE:
+![WhatsApp Image 2025-12-12 at 13 22 57_0d1a3343](https://github.com/user-attachments/assets/dfad6c2b-9cad-4406-9c5b-ce074c6c6990)
 
 
 ## RESULT:
