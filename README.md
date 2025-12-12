@@ -34,59 +34,33 @@ Publish the website in the given URL.
 
 ## PROGRAM :
 ~~~
-math.html
+ex5.html
 
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-.formelt {
-    font-size: 20px;
-    background-color: blue;
-}
 
-.formelt {
-    color: orange;
-    text-align: center;
-    margin-top: 7px;
-    margin-bottom: 6px;
-}
 
-h1 {
-    color: rgb(255, 0, 179);
-    text-align: center;
-    padding-top: 20px;
-}
-</style>
+    <title>Lamp Power Calculator</title>
 </head>
+<body style="text-align:center; margin-top:50px; background: linear-gradient(to right, black, grey, white, sandybrown);">
+    <h2>Power of Lamp Filament</h2>
+    <p><b>Formula:</b> P = I² x R</p>
 
-<body>
-<div class="edge">
-<div class="box">
-<h1>Area of a Rectangle</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label style="font-size: large;">Current (I in Amperes):</label><br>
+        <input type="number" name="current" step="0.01" required  width: 250px;    height: 30px;     font-size: 16px;><br><br>
 
-<form method="POST">
-{% csrf_token %}
+        <label style="font-size: larger;">Resistance (R in Ohms):</label><br>
+        <input type="number" name="resistance" step="0.01" required  width: 250px;    height: 30px;     font-size: 16px><br><br>
 
-<div class="formelt">
-    Length : <input type="text" name="length" value="{{l}}"> (in m)<br/>
-</div>
+        <button type="submit" aria-setsize="50">Calculate The Power</button>
+    </form>
 
-<div class="formelt">
-    Breadth : <input type="text" name="breadth" value="{{b}}"> (in m)<br/>
-</div>
-
-<div class="formelt">
-    <input type="submit" value="Calculate"><br/>
-</div>
-
-<div class="formelt">
-    Area : <input type="text" name="area" value="{{area}}"> m<sup>2</sup><br/>
-</div>
-
-</form>
-</div>
-</div>
+    {% if Power %}
+        <h3>Power: {{ Power }} W</h3>
+    {% endif %}
 </body>
 </html>
 
@@ -94,46 +68,32 @@ views.py
 
 from django.shortcuts import render
 
-def rectarea(request):
-    context = {}
-    context['area'] = "0"
-    context['l'] = "0"
-    context['b'] = "0"
-
+def calculate_power(request):
+    power = None
     if request.method == "POST":
-        print("POST method is used")
-        l = request.POST.get('length', '0')
-        b = request.POST.get('breadth', '0')
-        print("request:", request)
-        print("Length:", l)
-        print("Breadth:", b)
+        current = float(request.POST.get("current"))   # I
+        resistance = float(request.POST.get("resistance"))  # R
+        power = (current ** 2) * resistance            # P = I² × R
+        print(f"Current: {current} A, Resistance: {resistance} Ω, Power: {power:.2f} W")
 
-        area = int(l) * int(b)
-        context['area'] = area
-        context['l'] = l
-        context['b'] = b
-        print("Area:", area)
-
-    return render(request, 'mathapp/math.html', context)
+    return render(request, 'ex5/ex5.html', {'Power':power})
 
 urls.py
 
 from django.contrib import admin
 from django.urls import path
-from mathapp import views
+from ex5 import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('areaofrectangle/', views.rectarea, name="areaofrectangle"),
-    path('', views.rectarea, name="areaofrectangleroot")
+    path('',views.calculate_power),
 ]
 ~~~
 
 ## SERVER SIDE PROCESSING:
-![alt text](<Screenshot 2025-12-11 112811.png>)
 
 ## HOMEPAGE:
-![alt text](<Screenshot 2025-12-11 112717.png>)
+
 
 ## RESULT:
 The program for performing server side processing is completed successfully.
